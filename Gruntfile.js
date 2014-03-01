@@ -108,11 +108,19 @@ module.exports = function (grunt) {
 
     uglify: {
       options: {
+        compress: {
+          warnings: false
+        },
+        mangle: true,
+        preserveComments: false,
         report: 'min'
       },
       bootstrap: {
         options: {
-          banner: '<%= banner %>'
+          banner: '<%= banner %>',
+          compress: {
+            warnings: true
+          }
         },
         src: '<%= concat.bootstrap.dest %>',
         dest: 'dist/js/<%= pkg.name %>.min.js'
