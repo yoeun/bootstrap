@@ -6,7 +6,10 @@
  * details, see http://creativecommons.org/licenses/by/3.0/.
  */
 
+/* global JSZip, less, saveAs, uglify, __js, __less, __fonts */
+
 window.onload = function () { // wait for load in a dumb way because B-0
+  'use strict';
   var cw = '/*!\n' +
            ' * Bootstrap v3.1.1 (http://getbootstrap.com)\n' +
            ' * Copyright 2011-2014 Twitter, Inc.\n' +
@@ -111,7 +114,9 @@ window.onload = function () { // wait for load in a dumb way because B-0
       }
       if (data.vars) {
         for (var i in data.vars) {
-          $('input[data-var="' + i + '"]').val(data.vars[i])
+          if (data.vars.hasOwnProperty(i)) {
+            $('input[data-var="' + i + '"]').val(data.vars[i])
+          }
         }
       }
     })
@@ -128,21 +133,27 @@ window.onload = function () { // wait for load in a dumb way because B-0
     if (css) {
       var cssFolder = zip.folder('css')
       for (var fileName in css) {
-        cssFolder.file(fileName, css[fileName])
+        if (css.hasOwnProperty(fileName)) {
+          cssFolder.file(fileName, css[fileName])
+        }
       }
     }
 
     if (js) {
       var jsFolder = zip.folder('js')
       for (var jsFileName in js) {
-        jsFolder.file(jsFileName, js[jsFileName])
+        if (js.hasOwnProperty(jsFileName)) {
+          jsFolder.file(jsFileName, js[jsFileName])
+        }
       }
     }
 
     if (fonts) {
       var fontsFolder = zip.folder('fonts')
       for (var fontsFileName in fonts) {
-        fontsFolder.file(fontsFileName, fonts[fontsFileName], {base64: true})
+        if (fonts.hasOwnProperty(fontsFileName)) {
+          fontsFolder.file(fontsFileName, fonts[fontsFileName], { base64: true })
+        }
       }
     }
 
@@ -159,7 +170,9 @@ window.onload = function () { // wait for load in a dumb way because B-0
     var result = ''
 
     for (var key in vars) {
-      result += key + ': ' + vars[key] + ';\n'
+      if (vars.hasOwnProperty(key)) {
+        result += key + ': ' + vars[key] + ';\n'
+      }
     }
 
     return result + '\n\n'
@@ -196,7 +209,7 @@ window.onload = function () { // wait for load in a dumb way because B-0
       // Core stylesheets like 'normalize.less' are not included in the form
       // since disabling them would wreck everything, and so their 'fileInclude'
       // will be 'undefined'.
-      if (fileInclude || (fileInclude == null))    lessSource += __less[filename]
+      if (fileInclude || (fileInclude === null))   lessSource += __less[filename]
 
       // Custom variables are added after Bootstrap variables so the custom
       // ones take precedence.
@@ -212,7 +225,9 @@ window.onload = function () { // wait for load in a dumb way because B-0
       paths: ['variables.less', 'mixins.less'],
       optimization: 0,
       filename: baseFilename + '.css'
-    }).parse(lessSource, function (err, tree) {
+    })
+
+    parser.parse(lessSource, function (err, tree) {
       if (err) {
         return showError('<strong>Ruh roh!</strong> Could not parse less files.', err)
       }
@@ -312,7 +327,6 @@ window.onload = function () { // wait for load in a dumb way because B-0
   })
 
   var $compileBtn = $('#btn-compile')
-  var $downloadBtn = $('#btn-download')
 
   $compileBtn.on('click', function (e) {
     var configData = getCustomizerData()
@@ -345,7 +359,7 @@ window.onload = function () { // wait for load in a dumb way because B-0
     var url = window.webkitURL || window.URL // Safari 6 uses "webkitURL".
     var svg = new Blob(
       ['<svg xmlns=\'http://www.w3.org/2000/svg\'></svg>'],
-      {type: 'image/svg+xml;charset=utf-8'}
+      { type: 'image/svg+xml;charset=utf-8' }
     )
     var objectUrl = url.createObjectURL(svg);
     if (/^blob:/.exec(objectUrl) === null) {
