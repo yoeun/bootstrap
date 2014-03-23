@@ -212,7 +212,7 @@
       return
     }
     var scrollbarWidth = this.measureScrollbar()
-    var bodyPad        = parseInt(this.$body.css('padding-right') || 0)
+    var bodyPad        = parseInt((this.$body.css('padding-right') || 0), 10)
     if (scrollbarWidth) {
       this.$body.css('padding-right', bodyPad + scrollbarWidth)
     }
