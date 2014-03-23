@@ -11,7 +11,7 @@ window.onload = function () { // wait for load in a dumb way because B-0
            ' * Bootstrap v3.1.1 (http://getbootstrap.com)\n' +
            ' * Copyright 2011-2014 Twitter, Inc.\n' +
            ' * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)\n' +
-           ' */\n\n'
+           ' */\n'
 
   function showError(msg, err) {
     $('<div id="bsCustomizerAlert" class="bs-customizer-alert">' +
@@ -255,7 +255,25 @@ window.onload = function () { // wait for load in a dumb way because B-0
     return result
   }
 
-  function generateJavascript() {
+  function uglify(js) {
+    var uglifyJS = window.UglifyJS
+    var ast = uglifyJS.parse(js)
+    ast.figure_out_scope()
+
+    var compressor = uglifyJS.Compressor()
+    var compressedAst = ast.transform(compressor)
+
+    compressedAst.figure_out_scope()
+    compressedAst.compute_char_frequency()
+    compressedAst.mangle_names()
+
+    var stream = uglifyJS.OutputStream()
+    compressedAst.print(stream)
+
+    return stream.toString()
+  }
+
+  function generateJS() {
     var $checked = $('#plugin-section input:checked')
     if (!$checked.length) return false
 
@@ -322,7 +340,7 @@ window.onload = function () { // wait for load in a dumb way because B-0
 
     $compileBtn.attr('disabled', 'disabled')
 
-    generateZip(generateCSS(), generateJavascript(), generateFonts(), configJson, function (blob) {
+    generateZip(generateCSS(), generateJS(), generateFonts(), configJson, function (blob) {
       $compileBtn.removeAttr('disabled')
       saveAs(blob, 'bootstrap.zip')
       createGist(configJson)
