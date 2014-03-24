@@ -107,7 +107,9 @@
 
     this.$element
       [dimension](this.$element[dimension]())
+      /* jshint ignore:start */
       [0].offsetHeight
+      /* jshint ignore:end */
 
     this.$element
       .addClass('collapsing')

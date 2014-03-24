@@ -70,7 +70,9 @@
         .scrollTop(0)
 
       if (transition) {
+        /* jshint ignore:start */
         that.$element[0].offsetWidth // force reflow
+        /* jshint ignore:end */
       }
 
       that.$element
@@ -192,7 +194,9 @@
       }, this))
 
       if (doAnimate) {
+        /* jshint ignore:start */
         this.$backdrop[0].offsetWidth // force reflow
+        /* jshint ignore:end */
       }
 
       this.$backdrop.addClass('in')
