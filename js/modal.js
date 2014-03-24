@@ -225,7 +225,7 @@
     }
   }
 
-  Modal.prototype.setScrollbar =  function () {
+  Modal.prototype.setScrollbar = function () {
     if (document.body.clientHeight <= window.innerHeight) {
       return
     }
