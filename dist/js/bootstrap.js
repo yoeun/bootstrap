@@ -687,9 +687,15 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
     if (!/(38|40|27)/.test(e.keyCode)) return
 
     var $this = $(this)
+    var activeElement = document.activeElement
+    var isTextElement = activeElement.getAttribute('contenteditable') === 'true'
+      || activeElement.nodeName === 'TEXTAREA' 
+      || (activeElement.nodeName ==='INPUT' && activeElement.getAttribute('type') === 'text')
 
-    e.preventDefault()
-    e.stopPropagation()
+    if (!isTextElement) {
+      e.preventDefault()
+      e.stopPropagation()
+    }
 
     if ($this.is('.disabled, :disabled')) return
 
