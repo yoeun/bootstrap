@@ -79,13 +79,22 @@
 
     if (!$items.length) return
 
-    var index = $items.index($items.filter(':focus'))
+    var index = $items.index($items.filter('.selected'))
+
+    // unhighlight item
+    if (index != -1) {
+      var item = $items.eq(index)
+      if (item && item.hasClass('selected')) {
+        item.removeClass('selected')
+      }
+    }
 
     if (e.keyCode == 38 && index > 0)                 index--                        // up
     if (e.keyCode == 40 && index < $items.length - 1) index++                        // down
     if (!~index)                                      index = 0
 
     $items.eq(index).trigger('focus')
+    $items.eq(index).addClass('selected')
   }
 
   function clearMenus(e) {
