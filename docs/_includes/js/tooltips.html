@@ -105,6 +105,17 @@ $('#example').tooltip(options)
          <td>If a selector is provided, tooltip objects will be delegated to the specified targets.</td>
        </tr>
        <tr>
+         <td>template</td>
+         <td>string</td>
+         <td><code>'&lt;div class="tooltip" role="tooltip"&gt;&lt;div class="tooltip-arrow"&gt;&lt;/div&gt;&lt;div class="tooltip-inner"&gt;&lt;/div&gt;&lt;/div&gt;'</code></td>
+         <td>
+          <p>base HTML to use when creating the tooltip.</p>
+          <p>The tooltip's <code>title</code> will be injected into the <code>.tooltip-inner</code>.</p>
+          <p><code>.tooltip-arrow</code> will become the tooltip's arrow.</p>
+          <p>The outermost wrapper element should have the <code>.tooltip</code> class.</p>
+        </td>
+       </tr>
+       <tr>
          <td>title</td>
          <td>string | function</td>
          <td>''</td>
